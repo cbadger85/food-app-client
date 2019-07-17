@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Checkbox from './Checkbox';
 
-const IngredientsForm = ({ ingredients, addToOrder }) => {
-  const [breadInput, setBreadInput] = useState('');
-  const [order, setOrder] = useState([]);
-
-  const breadList = ingredients.filter(
-    ingredient => ingredient.category === 'BREAD'
-  );
-
+const IngredientsForm = ({
+  ingredients,
+  addToOrder,
+  foundOrder = [],
+  editOrder,
+  isEditingOrder,
+}) => {
   const cheeseList = ingredients.filter(
     ingredient => ingredient.category === 'CHEESE'
   );
@@ -24,6 +23,24 @@ const IngredientsForm = ({ ingredients, addToOrder }) => {
   const condimentsList = ingredients.filter(
     ingredient => ingredient.category === 'CONDIMENTS'
   );
+
+  const breadList = ingredients.filter(
+    ingredient => ingredient.category === 'BREAD'
+  );
+
+  const intialBread =
+    foundOrder.find(ingredient => {
+      return breadList.find(bread => bread.id === ingredient.id);
+    }) || '';
+
+  const [breadInput, setBreadInput] = useState('');
+  const [order, setOrder] = useState([]);
+
+  useEffect(() => {
+    setBreadInput(intialBread.ingredientName);
+    isEditingOrder && setOrder(foundOrder);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [intialBread.ingredientName, isEditingOrder]);
 
   const handleBreadSelect = (e, bread) => {
     const alreadyOrderedBread = order.find(
@@ -83,7 +100,7 @@ const IngredientsForm = ({ ingredients, addToOrder }) => {
             ingredient={ingredient}
             key={ingredient.id}
             addIngredient={handleAddIngredient}
-            initialCheck={order.find(
+            initialCheck={foundOrder.find(
               orderedIngredient => orderedIngredient.id === ingredient.id
             )}
           />
@@ -96,6 +113,9 @@ const IngredientsForm = ({ ingredients, addToOrder }) => {
             ingredient={ingredient}
             key={ingredient.id}
             addIngredient={handleAddIngredient}
+            initialCheck={foundOrder.find(
+              orderedIngredient => orderedIngredient.id === ingredient.id
+            )}
           />
         ))}
       </div>
@@ -106,6 +126,9 @@ const IngredientsForm = ({ ingredients, addToOrder }) => {
             ingredient={ingredient}
             key={ingredient.id}
             addIngredient={handleAddIngredient}
+            initialCheck={foundOrder.find(
+              orderedIngredient => orderedIngredient.id === ingredient.id
+            )}
           />
         ))}
       </div>
@@ -116,12 +139,21 @@ const IngredientsForm = ({ ingredients, addToOrder }) => {
             ingredient={ingredient}
             key={ingredient.id}
             addIngredient={handleAddIngredient}
+            initialCheck={foundOrder.find(
+              orderedIngredient => orderedIngredient.id === ingredient.id
+            )}
           />
         ))}
       </div>
-      <button type="button" onClick={() => addToOrder(order)}>
-        Add to Order
-      </button>
+      {isEditingOrder ? (
+        <button type="button" onClick={() => editOrder(order)}>
+          Edit Order
+        </button>
+      ) : (
+        <button type="button" onClick={() => addToOrder(order)}>
+          Add to Order
+        </button>
+      )}
     </div>
   );
 };

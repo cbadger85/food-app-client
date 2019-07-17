@@ -20,6 +20,7 @@ function App() {
       <Layout>
         <Route path="/" exact component={OrderList} />
         <Route path="/order" exact component={Order} />
+        <Route path="/order/:id" exact component={Order} />
       </Layout>
     </Router>
   );

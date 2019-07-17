@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import IngredientsForm from '../components/IngredientsForm';
-import { addOrderToCart } from '../store/actions';
+import { addOrderToCart, updatItemInCart } from '../store/actions';
 
-const Order = ({ history }) => {
+const Order = ({ history, match }) => {
   const [ingredients, setIngredients] = useState([]);
   const dispatch = useDispatch();
+  const { sandwich } =
+    useSelector(state =>
+      state.orders.find(foundOrder => foundOrder.id === match.params.id)
+    ) || [];
 
   useEffect(() => {
     axios.get('/ingredients').then(res => setIngredients(res.data));
@@ -15,7 +19,12 @@ const Order = ({ history }) => {
 
   const handleAddToOrder = order => {
     dispatch(addOrderToCart(order));
-    // TODO: redirect to '/'
+
+    history.push('/');
+  };
+
+  const handleEditOrder = order => {
+    dispatch(updatItemInCart({ id: match.params.id, sandwich: order }));
     history.push('/');
   };
 
@@ -24,6 +33,9 @@ const Order = ({ history }) => {
       <IngredientsForm
         ingredients={ingredients}
         addToOrder={handleAddToOrder}
+        editOrder={handleEditOrder}
+        foundOrder={sandwich}
+        isEditingOrder={!!match.params.id}
       />
       <Link to="/">Cancel</Link>
     </div>

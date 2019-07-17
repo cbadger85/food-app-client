@@ -6,7 +6,7 @@ export const UPDATE_ITEM_IN_CART = 'UPDATE_ITEM_IN_CART';
 
 export const addOrderToCart = order => ({
   type: ADD_ORDER_TO_CART,
-  payload: { ...order, id: uuid() },
+  payload: { sandwich: order, id: uuid() },
 });
 
 export const removeOrderFromCart = id => ({

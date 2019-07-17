@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const Checkbox = ({ ingredient, addIngredient, intialCheck }) => {
-  const [isChecked, setIsChecked] = useState(!!intialCheck);
+const Checkbox = ({ ingredient, addIngredient, initialCheck }) => {
+  const [isChecked, setIsChecked] = useState(!!initialCheck);
 
   const handleOnCheck = () => {
     setIsChecked(!isChecked);
