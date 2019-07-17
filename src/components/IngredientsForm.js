@@ -147,7 +147,7 @@ const IngredientsForm = ({
       </div>
       {isEditingOrder ? (
         <button type="button" onClick={() => editOrder(order)}>
-          Edit Order
+          Save Order
         </button>
       ) : (
         <button type="button" onClick={() => addToOrder(order)}>
