@@ -11,7 +11,7 @@ export const addOrderToCart = order => ({
 
 export const removeOrderFromCart = id => ({
   type: REMOVE_ORDER_FROM_CART,
-  payload: id,
+  payload: { id },
 });
 
 export const updatItemInCart = order => ({

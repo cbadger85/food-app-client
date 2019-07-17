@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import OrderList from './pages/OrderList';
+import Checkout from './pages/Checkout';
 import Order from './pages/Order';
 import './App.css';
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" exact component={OrderList} />
         <Route path="/order" exact component={Order} />
         <Route path="/order/:id" exact component={Order} />
+        <Route path="/checkout" exact component={Checkout} />
       </Layout>
     </Router>
   );
