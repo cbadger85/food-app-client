@@ -13,7 +13,6 @@ export default (state = [], { type, payload }) => {
     case UPDATE_ITEM_IN_CART:
       return state.map(order => {
         if (order.id === payload.id) {
-          console.log('equal');
           return payload;
         }
 
